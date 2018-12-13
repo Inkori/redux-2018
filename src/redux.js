@@ -1,11 +1,29 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import logger from "redux-logger";
+import thunk from 'redux-thunk';
 
 const createId = () => Math.random();
 
-const INIT = {
-  books: [],
-  readers: []
-};
+// const INIT = {
+//   books: [],
+//   readers: []
+// };
+
+//************ */middlewere
+
+// const logger = function(store) {
+//   return function(next) {
+//     return function(action) {
+//       console.log("-------store----", store.getState());
+//       console.log(action);
+//       next(action);
+//     };
+//   };
+// };
+
+
+
+/////////////////////
 
 const readers = (state = [], action) => {
   const { type, payload } = action;
@@ -52,12 +70,26 @@ const books = (state = [], action) => {
   }
 };
 
+// const logger = createLogger({
+	
+	
+// });
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const reducer = combineReducers({
   books,
   readers
 });
 
-const store = createStore(reducer);
+// const initialState = {
+//   books: [],
+//   readers: []
+// };
+
+const store = createStore(reducer, /* preloadedState, */ composeEnhancers( 
+	 applyMiddleware(thunk, logger) //(reducer, initialState)
+))
 
 const addBook = bookName => ({ type: "ADD_BOOK", payload: bookName });
 const removeBook = id => ({ type: "REMOVE_BOOK", payload: id });
