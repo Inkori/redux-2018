@@ -8,32 +8,38 @@ export default class Search extends PureComponent {
   };
 
   state = {
-    value: "",
-    searchField: "title"
-  };
-
-  onSelect = e => {
-    const { value } = e.target;
-    this.setState({ searchField: value });
+    title: "",
+    tags: ""
   };
 
   onChange = e => {
-    const { value } = e.target;
-
-    this.setState({ value });
-
-    this.props.search(this.props.searchField, value);
+    const { value, name } = e.target;
+    this.setState({ [name]: value });
+    this.props.search(name, value);
   };
 
   render() {
     return (
       <div className="search">
-        <input
-          type="text"
-          value={this.state.value}
-          onChange={this.onChange}
-          placeholder="Search..."
-        />
+        <h3>Search:</h3>
+        <span className="search-input">
+          <input
+            type="text"
+            name="title"
+            value={this.state.title}
+            onChange={this.onChange}
+            placeholder="By title..."
+          />
+        </span>
+        <span className="search-input">
+          <input
+            type="text"
+            name="tags"
+            value={this.state.tags}
+            onChange={this.onChange}
+            placeholder="By tags..."
+          />
+        </span>
       </div>
     );
   }

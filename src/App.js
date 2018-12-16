@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          Search by title: <Search searchField="title" />
+          <Search />
           <Form />
           <List />
         </div>

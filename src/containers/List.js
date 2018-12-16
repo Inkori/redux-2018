@@ -5,8 +5,7 @@ import { filteredVideos, totalViedos } from "../selectors";
 
 const mapStateToProps = state => ({
   items: filteredVideos(state),
-  totalVideos: totalViedos(state),
-  filteredCount: filteredVideos(state).length
+  totalVideos: totalViedos(state)
 });
 
 export default connect(mapStateToProps)(List);

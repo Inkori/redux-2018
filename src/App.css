@@ -66,3 +66,6 @@ body {
   padding-bottom: 10px;
   cursor: pointer;
 }
+.search-input {
+  padding: 10px;
+}

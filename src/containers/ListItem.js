@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 
 import ListItem from "../components/ListItem";
-import { editVideo, deleteItem,  } from "../reducers/videos";
+import { editVideo, deleteItem } from "../reducers/videos";
 
 const mapDispatchToProps = dispatch => {
   return {
