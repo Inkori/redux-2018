@@ -1,5 +1,5 @@
 const ADD_VIDEO = "ADD_VIDEO";
-const EDIT_MODE = "EDIT_MODE";
+const EDIT_VIDEO = "EDIT_MODE";
 const REMOVE_VIDEO = "REMOVE_VIDEO";
 
 const INIT = [];
@@ -18,12 +18,13 @@ export default function videosReducer(state = [], action) {
 
       return [newItem, ...state];
 
-    case EDIT_MODE:
+    case EDIT_VIDEO:
       return state.map(item => {
         if (item.id === payload.id) {
           return {
             ...item,
-            title: payload.title
+            title: payload.title,
+            tags: payload.newTags
           };
         }
         return item;
@@ -43,9 +44,9 @@ export const addVideo = ({ title, url, tags }) => ({
   payload: { title, url, tags }
 });
 
-export const editItem = ({ id, title }) => ({
-  type: EDIT_MODE,
-  payload: { id, title }
+export const editVideo = (id, newTitle, newTags) => ({
+  type: EDIT_VIDEO,
+  payload: { id, newTitle, newTags }
 });
 
 export const deleteItem = id => ({

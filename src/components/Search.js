@@ -7,7 +7,15 @@ export default class Search extends PureComponent {
     search: func.isRequired
   };
 
-  state = { value: "" };
+  state = {
+    value: "",
+    searchField: "title"
+  };
+
+  onSelect = e => {
+    const { value } = e.target;
+    this.setState({ searchField: value });
+  };
 
   onChange = e => {
     const { value } = e.target;

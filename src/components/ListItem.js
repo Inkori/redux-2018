@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { string } from "prop-types";
+import { string, func } from "prop-types";
 
 const getVideoId = url => url.split("/")[3];
 const createVideoUrl = id => `https://www.youtube.com/embed/${id}`;
@@ -12,90 +12,95 @@ export default class ListItem extends PureComponent {
     id: string.isRequired,
     title: string.isRequired,
     url: string.isRequired,
-    tags: string.isRequired
+    tags: string.isRequired,
+    edit: func.isRequired
   };
 
   state = {
     mode: VIEW_MODE,
-    isEditing: false
+    title: this.props.title,
+    tags: this.props.tags
   };
 
   switchMode = () => {
     const updatedMode = this.state.mode === VIEW_MODE ? EDIT_MODE : VIEW_MODE;
-
     this.setState({ mode: updatedMode });
   };
-  onChange = e => {
-    const { name, value } = e.target;
 
-    this.setState({ [name]: value });
+  onChangeTitle = e => {
+    this.setState({ title: e.target.value });
   };
-  edit = () => {
-    this.setState({ mode: VIEW_MODE });
+
+  onChangeTag = e => {
+    this.setState({ tags: e.target.value });
   };
-  save = () => {
-    this.setState({ mode: EDIT_MODE }, () => {
-      this.props.editItem(this.props.id, this.state.value);
-    });
+
+  saveChanges = () => {
+    this.switchMode();
+    this.props.edit(this.props.id, this.state.title, this.state.tags);
   };
+
   delete = () => {
     this.props.del(this.props.id);
-    console.log(this.state.id);
   };
 
   render() {
-    const { url, title, deleteItem, id } = this.props;
-    const { mode } = this.state;
+    const { url } = this.props;
+    const { mode, title, tags } = this.state;
 
     const videoId = getVideoId(url);
     const videoUrl = createVideoUrl(videoId);
 
+    const tagItem = tags.split(", ").map(tag => (
+      <li className="list-tag" key={tag}>
+        {tag}
+      </li>
+    ));
+
     return (
       <li className="list-item">
-        {mode}
-        {mode ? (
-          <div>
-            <div className="title">{title}</div>
-            <span onClick={this.switchMode}>
-              <span onClick={this.edit}>&#9998;</span>
-            </span>
-            <button onClick={this.delete}>x</button>
-            {console.log(this.delet)}
-          </div>
-        ) : (
-          <div>
-            <input
-              type="text"
-              name="edit"
-              onChange={this.onChange}
-              value={title}
-            />
-            <span onClick={this.switchMode}>
-              <span onClick="save">&#10004;</span>
-            </span>
-          </div>
-        )}
+        <div>
+          <span className="delete" onClick={this.delete}>
+            X
+          </span>
+
+          {mode === VIEW_MODE ? (
+            <div className="title">
+              {title}
+              <span className="edit" onClick={this.switchMode}>
+                &#9998;
+              </span>
+            </div>
+          ) : (
+            <div className="changeValue">
+              <input
+                type="text"
+                name="edit"
+                onChange={this.onChangeTitle}
+                value={title}
+              />
+              <span className="save" onClick={this.saveChanges}>
+                &#10004;
+              </span>
+            </div>
+          )}
+        </div>
 
         <iframe src={videoUrl} title={title} />
+        <div className="tags">
+          {mode === VIEW_MODE ? (
+            <ul className="list">{tagItem}</ul>
+          ) : (
+            <div className="changeValue">
+              <input type="text" value={tags} onChange={this.onChangeTag} />
+
+              <span className="save" onClick={this.saveChanges}>
+                &#10004;
+              </span>
+            </div>
+          )}
+        </div>
       </li>
     );
   }
 }
-
-// (
-// 	<li key={id} className="list-item">
-// 		{!isEditing ? (
-// 			<div className="title">
-// 				{title}
-// 				<button onClick={this.edit}>{edit}</button>
-// 			</div>
-// 		) : (
-// 			<div>
-// 				<input type="text" onChange={this.onChangeValue} value={title} />
-// 				<button onClick={this.save}>{edit}</button>
-// 			</div>
-// 		)}
-// 		<iframe src={createVideoUrl(videoId)} title={title} />
-// 	</li>
-// );
-// });

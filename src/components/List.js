@@ -20,12 +20,16 @@ export default class List extends PureComponent {
   };
 
   render() {
-    const { items, deleteItem } = this.props;
-    console.log(deleteItem);
-    const list = items.map(item => (
-      <ListItem key={item.id} deleteItem={deleteItem} {...item} />
-    ));
+    const { items, totalVideos } = this.props;
+    const list = items.map(item => <ListItem key={item.id} {...item} />);
 
-    return <ul className="list-wrapper">{list}</ul>;
+    return (
+      <div className="container-videos">
+        <h2>
+          Videos: {totalVideos}/{items.length}
+        </h2>
+        <ul className="list-wrapper">{list}</ul>
+      </div>
+    );
   }
 }

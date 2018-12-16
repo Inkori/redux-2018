@@ -20,3 +20,10 @@ export const filteredVideos = createSelector(
       });
     })
 );
+
+export const totalViedos = createSelector(
+  [videosSelector],
+  videos => {
+    return videos.length;
+  }
+);

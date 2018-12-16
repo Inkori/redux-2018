@@ -41,7 +41,28 @@ body {
   padding: 15px;
   margin: 10px;
   border: 2px solid red;
+  position: relative;
 }
 .search {
   padding: 10px;
+}
+.save {
+  right: 55px;
+  color: green;
+  position: absolute;
+  cursor: pointer;
+}
+.edit {
+  cursor: pointer;
+  position: absolute;
+  right: 40px;
+}
+.delete {
+  position: absolute;
+  right: 17px;
+  cursor: pointer;
+}
+.changeValue {
+  padding-bottom: 10px;
+  cursor: pointer;
 }
